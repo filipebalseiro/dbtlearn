@@ -1,0 +1,61 @@
+models:
+  - name: full_moon_reviews
+    description: The 'full_moon_reviews' model combines the 'fct_reviews' fact table
+      with the 'full_moon_dates' seed table to determine whether each review was
+      written during a full moon or not, allowing for analysis of the impact of
+      full moon on customer reviews.
+    columns:
+      - name: LISTING_ID
+        description: The unique identifier for each listing in the dataset. This column
+          is useful for grouping and aggregating data at the listing level. It
+          can be used to analyze the performance of individual listings, such as
+          average ratings, number of reviews, or revenue generated. Data
+          analysts can use this column to identify popular listings, compare
+          performance across different listings, or track changes in listing
+          activity over time.
+      - name: REVIEW_DATE
+        description: The date when the review was submitted by the guest. This column
+          provides a temporal dimension to the reviews data, allowing for
+          analysis of trends and patterns over time. It can be used to track the
+          volume of reviews received on a daily basis, identify peak periods of
+          guest activity, and analyze the impact of external events or
+          promotions on review submissions.
+      - name: REVIEWER_NAME
+        description: The name of the reviewer who left the review for an Airbnb listing.
+          This column provides information about the individuals who have
+          provided feedback on their experience with the listing. It can be used
+          to analyze the demographics or preferences of the reviewers, such as
+          their nationality or cultural background. Additionally, it can be used
+          to identify frequent reviewers or influential individuals who may have
+          a significant impact on the overall rating or reputation of the
+          listing.
+      - name: REVIEW_TEXT
+        description: The REVIEW_TEXT column contains the text content of the reviews
+          left by guests. This column is essential for sentiment analysis and
+          understanding the feedback provided by guests. Data analysts can use
+          this column to analyze the sentiment of reviews, identify common
+          themes or issues mentioned by guests, and gain insights into the
+          overall guest experience. By analyzing the text content, analysts can
+          identify areas of improvement for the Airbnb platform or specific
+          listings, track changes in guest satisfaction over time, and make
+          data-driven decisions to enhance the guest experience.
+      - name: REVIEW_SENTIMENT
+        description: The REVIEW_SENTIMENT column represents the sentiment of a review
+          left by a guest. It is a categorical variable that indicates whether
+          the sentiment of the review is positive, negative, or neutral. This
+          column can be used to analyze the overall sentiment of the reviews and
+          understand the guests' satisfaction level. It can be used to calculate
+          sentiment scores, sentiment trends over time, and identify patterns in
+          positive and negative reviews. This information can be valuable for
+          understanding customer satisfaction, identifying areas for
+          improvement, and making data-driven decisions to enhance the guest
+          experience.
+      - name: IS_FULL_MOON
+        description: "This column indicates whether the review date corresponds to a
+          full moon or not. It is a categorical column with two possible values:
+          'full moon' or 'not full moon'. This column can be used to analyze the
+          impact of full moon on the reviews received by Airbnb. For example, it
+          can be used to compare the average ratings or sentiment of reviews
+          during full moon days versus non-full moon days. This information can
+          be valuable for understanding any potential influence of lunar cycles
+          on customer experiences and satisfaction."
