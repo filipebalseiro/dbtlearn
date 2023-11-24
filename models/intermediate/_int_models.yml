@@ -50,16 +50,7 @@ models:
       - name: minimum_nights
         tests:
           - positive_value
-        description: The minimum number of nights a guest is required to book for this
-          listing. This column is useful for analyzing the booking patterns and
-          preferences of guests. It can be used to identify popular listings
-          that have a higher minimum nights requirement, which may indicate a
-          higher demand or longer stays. Additionally, it can be used to
-          understand the impact of minimum nights on booking rates and revenue
-          for hosts. Data analysts can use this column to identify trends and
-          patterns in guest behavior and make recommendations to hosts on
-          adjusting their minimum nights requirement to optimize occupancy and
-          revenue.
+        description: '{{ doc("dim_listing_cleansed__minimum_nights") }}'
     description: The 'dim_listings_cleansed' dbt model is used to create a cleansed
       version of the 'listings' table. It extracts relevant columns such as
       listing_id, listing_name, room_type, minimum_nights, host_id, price,
