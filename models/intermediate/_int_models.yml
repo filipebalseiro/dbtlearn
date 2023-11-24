@@ -58,4 +58,4 @@ models:
       column is transformed to ensure a minimum value of 1. The price column is
       converted from a string format to a decimal format. This model provides a
       clean and standardized view of the listings data, making it easier for
-      data analysts to analyze and report on.
+      data analysts to analyze and report on

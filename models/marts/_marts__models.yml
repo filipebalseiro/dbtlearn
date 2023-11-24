@@ -59,3 +59,121 @@ models:
           during full moon days versus non-full moon days. This information can
           be valuable for understanding any potential influence of lunar cycles
           on customer experiences and satisfaction."
+
+  - name: listings_w_hosts
+    description: The 'listings_w_hosts' dbt model combines the
+      'dim_listings_cleansed' and 'dim_hosts_cleansed' tables from the
+      AIRBNB.DEV schema. It retrieves the listing ID, listing name, room type,
+      minimum nights, price, host ID, host name, host superhost status, created
+      date, and the latest updated date for each listing. The model performs a
+      left join on the host ID to associate the host information with each
+      listing. This model is useful for analyzing and reporting on Airbnb
+      listings along with their corresponding hosts.
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          compare_model: source('airbnb', 'listings')
+    columns:
+      - name: LISTING_ID
+        description: The unique identifier for each listing in the database. This column
+          is crucial for tracking and identifying individual listings. It can be
+          used as a primary key to join with other tables and perform analysis
+          on specific listings. For example, it can be used to filter and
+          aggregate data to understand the performance and characteristics of
+          different listings, such as average price, minimum nights, and room
+          types.
+      - name: LISTING_NAME
+        description: The name or title of the Airbnb listing
+      - name: ROOM_TYPE
+        description: The type of room available for booking in the Airbnb listing. This
+          column provides information about the different types of
+          accommodations offered, such as 'Entire home/apt', 'Private room',
+          'Shared room', etc. The room type can be used to analyze the
+          distribution of different types of accommodations available in the
+          dataset. It can also be used to understand the preferences of guests
+          and identify trends in booking patterns based on the type of room
+          chosen.
+      - name: MINIMUM_NIGHTS
+        description: The MINIMUM_NIGHTS column represents the minimum number of nights
+          that a guest is required to book for this listing. This column is
+          useful for analyzing the booking policies of hosts and understanding
+          the average length of stay for guests. Data analysts can use this
+          column to identify listings with flexible or strict booking
+          requirements and analyze trends in guest preferences for shorter or
+          longer stays. This information can be used to optimize pricing
+          strategies, identify potential revenue opportunities, and make
+          data-driven decisions regarding minimum stay requirements.
+      - name: PRICE
+        tests:
+          - dbt_expectations.expect_column_quantile_values_to_be_between:
+              quantile: .99
+              min_value: 50
+              max_value: 500
+          - dbt_expectations.expect_column_max_to_be_between:
+              max_value: 5000
+              config:
+                severity: warn
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: number
+        description: The 'PRICE' column represents the nightly price of the listing.
+          This column is essential for analyzing the pricing trends and patterns
+          of the listings. It can be used to calculate average prices, identify
+          outliers, and compare prices across different room types and minimum
+          nights. Data analysts can use this column to generate reports on the
+          most expensive and affordable listings, track changes in prices over
+          time, and identify any seasonal variations in pricing. Additionally,
+          this column can be used to analyze the impact of pricing on booking
+          rates and occupancy levels, helping hosts optimize their pricing
+          strategies and maximize their revenue.
+      - name: HOST_ID
+        description: The unique identifier for the host of the Airbnb listing. This
+          column is useful for analyzing the performance and behavior of
+          individual hosts. It can be used to track the number of listings
+          hosted by each host, identify popular hosts, and analyze the impact of
+          host characteristics on listing performance. The HOST_ID can also be
+          used to join with other tables to gather additional information about
+          the host, such as their name, whether they are a superhost, and their
+          hosting history.
+      - name: HOST_NAME
+        description: The name of the host associated with the listing. This column
+          provides the name of the individual or entity who is renting out the
+          property on Airbnb. The host name can be used to identify and group
+          listings by the host, allowing for analysis of host performance and
+          behavior. For example, it can be used to identify popular hosts or
+          hosts with multiple listings. Additionally, it can be used to
+          personalize communication or reporting by including the host's name in
+          the output.
+      - name: HOST_IS_SUPERHOST
+        description: This column indicates whether the host of the listing is a
+          superhost or not. A superhost is a highly rated and experienced host
+          who provides exceptional hospitality to guests. This column can be
+          used to analyze the impact of being a superhost on various aspects
+          such as booking rates, customer satisfaction, and overall performance
+          of the listing. It can also be used to segment and compare the
+          performance of superhosts with non-superhosts, allowing for insights
+          into the benefits and advantages of being a superhost in the Airbnb
+          ecosystem.
+      - name: CREATED_AT
+        description: The timestamp when the listing was created. This column captures
+          the date and time when a listing was added to the platform. It can be
+          used to analyze the growth of listings over time, identify trends in
+          listing creation, and track the platform's overall activity. Data
+          analysts can use this column to generate reports on the number of
+          listings created per day, week, or month, and analyze any seasonality
+          or patterns in listing creation. Additionally, this column can be used
+          to calculate the age of a listing by comparing it with the current
+          date, which can provide insights into the popularity and longevity of
+          listings.
+      - name: UPDATED_AT
+        description: The 'UPDATED_AT' column represents the most recent timestamp
+          indicating when the listing or host information was last updated. This
+          column is useful for tracking the freshness of the data and
+          identifying the most recent changes made to the listings or hosts.
+          Data analysts can utilize this column to identify trends, patterns, or
+          anomalies based on the recency of updates. For example, they can
+          analyze the frequency of updates to understand the level of activity
+          in the Airbnb marketplace or identify hosts who frequently update
+          their information, which may indicate a higher level of engagement or
+          responsiveness. Additionally, this column can be used to filter or
+          sort the data based on the most recent updates, allowing analysts to
+          focus on the most relevant and up-to-date information for their
+          reporting needs.
